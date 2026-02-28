@@ -21,12 +21,16 @@ interface InfoFormProps {
 export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
   const { aiConfig } = useSKKNStore()
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<{ title: string; rationale: string }[]>([])
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false)
 
   const handleSuggestTopics = async () => {
     if (!formData.subject || !formData.level) {
       toast.error('Vui lòng chọn môn học và cấp học trước')
+      return
+    }
+    if (!aiConfig.apiKey) {
+      toast.error('Vui lòng nhập API Key Gemini trước khi dùng tính năng AI')
       return
     }
 
@@ -46,21 +50,21 @@ export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
         }),
       })
 
-      if (!res.ok) throw new Error('Failed to get suggestions')
-
       const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to get suggestions')
+
       setSuggestions(data.suggestions || [])
       setShowSuggestions(true)
       toast.success('Đã tạo gợi ý tên đề tài!')
-    } catch (error) {
-      toast.error('Không thể tạo gợi ý. Vui lòng thử lại.')
+    } catch (error: any) {
+      toast.error(error.message || 'Không thể tạo gợi ý. Vui lòng thử lại.')
     } finally {
       setIsLoadingSuggestions(false)
     }
   }
 
-  const handleSelectSuggestion = (suggestion: string) => {
-    onUpdate({ topicName: suggestion })
+  const handleSelectSuggestion = (title: string) => {
+    onUpdate({ topicName: title })
     setShowSuggestions(false)
   }
 
@@ -123,10 +127,13 @@ export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
             {suggestions.map((suggestion, index) => (
               <button
                 key={index}
-                className="w-full text-left p-3 bg-white hover:bg-blue-100 rounded-lg transition-colors text-sm border border-blue-200"
-                onClick={() => handleSelectSuggestion(suggestion)}
+                className="w-full text-left p-3 bg-white hover:bg-blue-100 rounded-lg transition-colors border border-blue-200"
+                onClick={() => handleSelectSuggestion(suggestion.title)}
               >
-                {suggestion}
+                <p className="text-sm font-medium text-gray-800">{suggestion.title}</p>
+                {suggestion.rationale && (
+                  <p className="text-xs text-gray-500 mt-1">{suggestion.rationale}</p>
+                )}
               </button>
             ))}
           </div>
