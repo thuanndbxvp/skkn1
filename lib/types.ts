@@ -340,13 +340,13 @@ export const AI_MODELS: Record<AIProvider, { id: string; name: string; descripti
     {
       id: 'gemini-3.1-pro-preview',
       name: 'Gemini 3.1 Pro Preview',
-      description: 'Mô hình tiên tiến nhất: tư duy logic, lập luận phức tạp, coding & agentic workflows',
+      description: 'Mô hình tiên tiến nhất',
       badge: 'Mới nhất',
     },
     {
       id: 'gemini-3-flash-preview',
       name: 'Gemini 3 Flash Preview',
-      description: 'Cân bằng tối ưu giữa tốc độ phản hồi và chất lượng đầu ra',
+      description: 'Mô hình nhanh, tối ưu',
       badge: 'Khuyến nghị',
     },
   ],
