@@ -336,13 +336,9 @@ export const AI_MODELS: Record<AIProvider, { id: string; name: string; descripti
     { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', description: 'Nhanh, giá rẻ' },
   ],
   gemini: [
-    // Gemini 2.0 (Stable and recommended)
-    { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ', badge: 'Khuyến nghị' },
-    { id: 'gemini-2.0-flash-lite', name: 'Gemini 2.0 Flash Lite', description: 'Nhẹ, rẻ nhất, phù hợp tác vụ đơn giản' },
-    { id: 'gemini-2.0-pro-exp-02-05', name: 'Gemini 2.0 Pro (Exp)', description: 'Thử nghiệm - Chất lượng cao cho tác vụ phức tạp', badge: 'Thử nghiệm' },
-    // Gemini 1.5 (Stable)
-    { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', description: 'Chất lượng cao, phù hợp tác vụ phức tạp' },
-    { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', description: 'Cân bằng tốc độ và chất lượng' },
+    // Gemini 1.5 (Stable and verified working)
+    { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', description: 'Nhanh, ổn định, phù hợp hầu hết tác vụ', badge: 'Khuyến nghị' },
     { id: 'gemini-1.5-flash-8b', name: 'Gemini 1.5 Flash 8B', description: 'Nhẹ, nhanh cho tác vụ cơ bản' },
+    { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', description: 'Chất lượng cao cho tác vụ phức tạp' },
   ],
 }
