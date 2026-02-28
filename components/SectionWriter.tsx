@@ -16,6 +16,7 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import { cn, countWords } from '@/lib/utils'
+import { SectionEnhancer } from './SectionEnhancer'
 import toast from 'react-hot-toast'
 
 interface SectionWriterProps {
@@ -249,11 +250,23 @@ export function SectionWriter({
                   </div>
                 </div>
               ) : (
-                <div className="bg-white p-4 rounded-lg max-h-64 overflow-y-auto">
-                  <p className="text-sm text-gray-800 whitespace-pre-wrap">
-                    {section.content}
-                  </p>
-                </div>
+                <>
+                  <div className="bg-white p-4 rounded-lg max-h-64 overflow-y-auto">
+                    <p className="text-sm text-gray-800 whitespace-pre-wrap">
+                      {section.content}
+                    </p>
+                  </div>
+                  {/* Section Enhancer */}
+                  <SectionEnhancer
+                    sectionId={section.id}
+                    sectionTitle={section.title}
+                    content={section.content}
+                    topicName={formData.topicName}
+                    onContentUpdate={(newContent) =>
+                      onSectionUpdate(section.id, newContent)
+                    }
+                  />
+                </>
               )}
             </Card>
           ))}
