@@ -289,25 +289,14 @@ export default function HomePage() {
             <p className="text-sm">
               Phát triển bởi{' '}
               <a
-                href="https://www.facebook.com/tranhoaithanhvicko"
+                href="https://www.facebook.com/deshunvn"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
-                Trần Hoài Thanh
+                Nguyễn Đức Thuận
               </a>{' '}
               © 2026
-            </p>
-            <p className="text-xs mt-2">
-              Xem thêm tại:{' '}
-              <a
-                href="https://giaovienai.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                giaovienai.vercel.app
-              </a>
             </p>
           </div>
         </div>
