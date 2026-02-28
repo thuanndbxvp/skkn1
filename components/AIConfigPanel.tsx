@@ -73,7 +73,6 @@ export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
         <Button
           onClick={handleSave}
           className="flex-1"
-          disabled={!apiKey.trim()}
         >
           <Check className="w-4 h-4 mr-2" />
           Lưu cấu hình
@@ -104,8 +103,8 @@ export function AIConfigBadge() {
       <button
         onClick={() => setIsOpen(true)}
         className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-colors text-sm ${hasApiKey
-            ? 'bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200'
-            : 'bg-red-100 hover:bg-red-200 animate-pulse'
+          ? 'bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200'
+          : 'bg-red-100 hover:bg-red-200 animate-pulse'
           }`}
       >
         <Sparkles className={`w-4 h-4 ${hasApiKey ? 'text-blue-600' : 'text-red-600'}`} />
