@@ -157,6 +157,16 @@ export const useSKKNStore = create<SKKNState>()(
     }),
     {
       name: 'skkn-storage',
+      version: 2,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0 || version === 1) {
+          // If the model was gemini-2.0-flash (which is removed), migrate to gemini-3-flash-preview
+          if (persistedState.aiConfig?.model === 'gemini-2.0-flash') {
+            persistedState.aiConfig.model = 'gemini-3-flash-preview'
+          }
+        }
+        return persistedState as SKKNState
+      },
       partialize: (state) => ({
         formData: state.formData,
         templateStructure: state.templateStructure,
