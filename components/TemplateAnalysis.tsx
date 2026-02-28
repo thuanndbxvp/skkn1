@@ -2,16 +2,19 @@
 
 import { Section } from '@/lib/types'
 import { Card } from '@/components/ui/card'
-import { Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Check, ArrowRight } from 'lucide-react'
 
 interface TemplateAnalysisProps {
   sections: Section[]
   isAnalyzing: boolean
+  onContinue?: () => void
 }
 
 export function TemplateAnalysis({
   sections,
   isAnalyzing,
+  onContinue,
 }: TemplateAnalysisProps) {
   if (isAnalyzing) {
     return (
@@ -64,6 +67,16 @@ export function TemplateAnalysis({
           </Card>
         ))}
       </div>
+
+      {/* Continue Button */}
+      {onContinue && (
+        <div className="pt-6 text-center">
+          <Button onClick={onContinue} size="lg" className="px-8">
+            Tiếp tục nhập thông tin
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

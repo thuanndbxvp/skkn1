@@ -240,6 +240,7 @@ export default function SKKNPage() {
               <TemplateAnalysis
                 sections={templateStructure}
                 isAnalyzing={isAnalyzing}
+                onContinue={() => setCurrentStep('form')}
               />
             </div>
           )}
