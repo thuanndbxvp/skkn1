@@ -73,15 +73,9 @@ export default function HomePage() {
               size="lg"
               variant="outline"
               className="text-lg px-8 py-6 w-full sm:w-auto"
-              asChild
+              disabled
             >
-              <a
-                href="https://youtu.be/zWGI5ad4HQA"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                📹 Xem video hướng dẫn
-              </a>
+              📹 Xem video hướng dẫn (Sắp có)
             </Button>
           </div>
 
