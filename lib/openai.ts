@@ -1,14 +1,18 @@
 import OpenAI from 'openai'
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('Missing OPENAI_API_KEY environment variable')
-}
-
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Only initialize OpenAI if API key is available
+export const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  : null
 
 export const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini'
+
+// Check if OpenAI is available
+export function isOpenAIAvailable(): boolean {
+  return !!openai && !!process.env.OPENAI_API_KEY
+}
 
 export async function chatCompletion(
   messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
@@ -18,6 +22,10 @@ export async function chatCompletion(
     stream?: boolean
   }
 ) {
+  if (!openai) {
+    throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY.')
+  }
+  
   return openai.chat.completions.create({
     model: DEFAULT_MODEL,
     messages,
@@ -30,6 +38,10 @@ export async function chatCompletion(
 export async function streamCompletion(
   messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[]
 ) {
+  if (!openai) {
+    throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY.')
+  }
+  
   return openai.chat.completions.create({
     model: DEFAULT_MODEL,
     messages,
