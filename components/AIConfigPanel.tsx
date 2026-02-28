@@ -6,9 +6,9 @@ import { Card } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { AI_PROVIDERS, AI_MODELS, AIProvider } from '@/lib/types'
+import { AI_MODELS } from '@/lib/types'
 import { useSKKNStore } from '@/lib/store'
-import { Sparkles, Check, AlertCircle } from 'lucide-react'
+import { Sparkles, Check, AlertCircle, Key, ExternalLink } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface AIConfigPanelProps {
@@ -17,70 +17,74 @@ interface AIConfigPanelProps {
 
 export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
   const { aiConfig, setAIConfig } = useSKKNStore()
-  const [provider, setProvider] = useState<AIProvider>(aiConfig.provider)
   const [model, setModel] = useState(aiConfig.model)
   const [apiKey, setApiKey] = useState(aiConfig.apiKey || '')
-  const [showKeyInput, setShowKeyInput] = useState(false)
 
   const handleSave = () => {
     setAIConfig({
-      provider,
+      provider: 'gemini',
       model,
       apiKey: apiKey || undefined,
     })
-    toast.success(`Đã chọn ${provider === 'openai' ? 'OpenAI' : 'Gemini'} - ${model}`)
+    toast.success(`Đã chọn: Gemini ${model}`)
     onClose?.()
   }
 
-  const currentProvider = AI_PROVIDERS.find((p) => p.id === provider)
-  const availableModels = AI_MODELS[provider]
+  const availableModels = AI_MODELS['gemini']
 
   return (
     <Card className="p-6 space-y-6">
       <div className="flex items-center space-x-3 mb-4">
-        <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
           <Sparkles className="w-5 h-5 text-white" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Cấu hình AI</h3>
+          <h3 className="text-lg font-semibold">Cấu hình Gemini AI</h3>
           <p className="text-sm text-gray-600">
-            Chọn nhà cung cấp AI và model phù hợp
+            SKKN Pro sử dụng Google Gemini để viết sáng kiến kinh nghiệm
           </p>
         </div>
       </div>
 
-      {/* Provider Selection */}
-      <div className="space-y-2">
-        <Label>Nhà cung cấp AI</Label>
-        <div className="grid grid-cols-2 gap-3">
-          {AI_PROVIDERS.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => {
-                setProvider(p.id)
-                setModel(AI_MODELS[p.id][0].id)
-              }}
-              className={`p-4 rounded-lg border-2 text-left transition-all ${
-                provider === p.id
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-blue-300'
-              }`}
+      {/* API Key Input - Prominent */}
+      <div className="space-y-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+        <div className="flex items-center space-x-2">
+          <Key className="w-5 h-5 text-amber-600" />
+          <Label className="font-semibold text-amber-900">API Key Gemini *</Label>
+        </div>
+        
+        <Input
+          type="password"
+          placeholder="AIza... (Nhập Gemini API Key của bạn)"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          className="bg-white border-amber-300"
+        />
+        
+        <div className="text-sm text-amber-800 space-y-1">
+          <p className="flex items-center">
+            <ExternalLink className="w-3 h-3 mr-1" />
+            <a 
+              href="https://aistudio.google.com/app/apikey" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="underline hover:text-amber-900"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-medium">{p.name}</span>
-                {provider === p.id && (
-                  <Check className="w-4 h-4 text-blue-600" />
-                )}
-              </div>
-              <p className="text-xs text-gray-600 mt-1">{p.description}</p>
-            </button>
-          ))}
+              Lấy API Key miễn phí tại aistudio.google.com
+            </a>
+          </p>
+          <p className="text-xs">
+            • API key sẽ được lưu trong trình duyệt của bạn
+          </p>
+          <p className="text-xs">
+            • Gemini có miễn phí tier hào phóng cho ngườ dùng mới
+          </p>
         </div>
       </div>
 
       {/* Model Selection */}
       <div className="space-y-2">
-        <Label>Model AI</Label>
+        <Label>Model Gemini</Label>
         <Select
           value={model}
           onChange={(e) => setModel(e.target.value)}
@@ -89,75 +93,32 @@ export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
             label: `${m.name} - ${m.description}`,
           }))}
         />
-      </div>
-
-      {/* API Key Input (Optional) */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label>API Key (Tùy chọn)</Label>
-          <button
-            onClick={() => setShowKeyInput(!showKeyInput)}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            {showKeyInput ? 'Ẩn' : 'Nhập key riêng'}
-          </button>
-        </div>
-        
-        {showKeyInput && (
-          <div className="space-y-3">
-            <Input
-              type="password"
-              placeholder={
-                provider === 'openai'
-                  ? 'sk-... (OpenAI API Key)'
-                  : 'AIza... (Gemini API Key)'
-              }
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-            />
-            <p className="text-xs text-gray-600">
-              Nếu để trống, hệ thống sẽ sử dụng API key mặc định từ server.
-            </p>
-          </div>
-        )}
+        <p className="text-xs text-gray-500">
+          Khuyến nghị: gemini-2.0-flash - Cân bằng tốt giữa tốc độ và chất lượng
+        </p>
       </div>
 
       {/* Info Note */}
-      <div className="flex items-start space-x-2 p-4 bg-amber-50 rounded-lg border border-amber-200">
-        <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
-        <div className="text-sm text-amber-900">
-          <p className="font-medium">Lưu ý về API Key:</p>
-          <ul className="mt-1 space-y-1 list-disc list-inside">
-            <li>
-              <strong>OpenAI:</strong> Lấy key tại{' '}
-              <a
-                href="https://platform.openai.com/api-keys"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                platform.openai.com
-              </a>
-            </li>
-            <li>
-              <strong>Gemini:</strong> Lấy key tại{' '}
-              <a
-                href="https://aistudio.google.com/app/apikey"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                aistudio.google.com
-              </a>
-            </li>
-            <li>API key sẽ được lưu trong trình duyệt của bạn.</li>
+      <div className="flex items-start space-x-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+        <div className="text-sm text-blue-900">
+          <p className="font-medium">Về Google Gemini:</p>
+          <ul className="mt-1 space-y-1 list-disc list-inside text-xs">
+            <li>Miễn phí tier: 1,500 request/ngày</li>
+            <li>Chất lượng tiếng Việt rất tốt</li>
+            <li>Không cần thẻ tín dụng để đăng ký</li>
+            <li>Nhanh hơn và rẻ hơn OpenAI</li>
           </ul>
         </div>
       </div>
 
       {/* Actions */}
       <div className="flex gap-3 pt-4">
-        <Button onClick={handleSave} className="flex-1">
+        <Button 
+          onClick={handleSave} 
+          className="flex-1"
+          disabled={!apiKey.trim()}
+        >
           <Check className="w-4 h-4 mr-2" />
           Lưu cấu hình
         </Button>
@@ -176,20 +137,25 @@ export function AIConfigBadge() {
   const { aiConfig, setAIConfig } = useSKKNStore()
   const [isOpen, setIsOpen] = useState(false)
 
-  const providerName = AI_PROVIDERS.find((p) => p.id === aiConfig.provider)?.name
-  const modelName = AI_MODELS[aiConfig.provider].find(
+  const modelName = AI_MODELS['gemini'].find(
     (m) => m.id === aiConfig.model
-  )?.name
+  )?.name || aiConfig.model
+
+  const hasApiKey = !!aiConfig.apiKey
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 hover:from-purple-200 hover:to-blue-200 transition-colors text-sm"
+        className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-colors text-sm ${
+          hasApiKey 
+            ? 'bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200' 
+            : 'bg-red-100 hover:bg-red-200 animate-pulse'
+        }`}
       >
-        <Sparkles className="w-4 h-4 text-purple-600" />
-        <span className="font-medium text-purple-900">
-          {providerName} • {modelName}
+        <Sparkles className={`w-4 h-4 ${hasApiKey ? 'text-blue-600' : 'text-red-600'}`} />
+        <span className={`font-medium ${hasApiKey ? 'text-blue-900' : 'text-red-900'}`}>
+          {hasApiKey ? `Gemini • ${modelName}` : 'Chưa có API Key'}
         </span>
       </button>
 

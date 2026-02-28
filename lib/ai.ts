@@ -26,9 +26,9 @@ export interface AICompletionOptions {
   stream?: boolean
 }
 
-// Default provider from env
+// Default provider from env (Gemini is now the default)
 export const DEFAULT_PROVIDER: AIProvider =
-  (process.env.DEFAULT_AI_PROVIDER as AIProvider) || 'openai'
+  (process.env.DEFAULT_AI_PROVIDER as AIProvider) || 'gemini'
 
 // Check which providers are available
 export function getAvailableProviders(): AIProvider[] {
