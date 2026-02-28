@@ -6,10 +6,11 @@ export const runtime = 'edge'
 
 export async function POST(req: NextRequest) {
   try {
-    const { templateText, provider, model } = await req.json() as { 
+    const { templateText, provider, model, apiKey } = await req.json() as { 
       templateText: string
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!templateText || typeof templateText !== 'string') {
@@ -58,7 +59,7 @@ CHỈ trả về JSON, không có text giải thích khác.`
           content: prompt,
         },
       ],
-      { provider, model }
+      { provider, model, apiKey }
     )
     
     // Parse JSON from response

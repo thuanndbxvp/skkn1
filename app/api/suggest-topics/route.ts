@@ -14,7 +14,8 @@ export async function POST(req: NextRequest) {
       studentDifficulties,
       interventions,
       provider, 
-      model 
+      model,
+      apiKey
     } = await req.json() as {
       subject: string
       grade: string
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
       interventions?: string
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!subject || !level) {
@@ -84,7 +86,7 @@ CHỈ trả về JSON hợp lệ, không có text giải thích khác.`
           content: prompt,
         },
       ],
-      { provider, model, temperature: 0.8 }
+      { provider, model, temperature: 0.8, apiKey }
     )
     
     let suggestions: { title: string; rationale: string }[] = []

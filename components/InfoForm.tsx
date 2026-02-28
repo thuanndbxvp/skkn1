@@ -42,6 +42,7 @@ export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
           currentTopic: formData.topicName,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 

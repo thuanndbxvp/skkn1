@@ -8,6 +8,7 @@ import {
   GEMINI_MODELS,
   DEFAULT_GEMINI_MODEL,
   type GeminiModel,
+  isGeminiAvailable,
 } from './gemini'
 import OpenAI from 'openai'
 
@@ -24,6 +25,7 @@ export interface AICompletionOptions {
   temperature?: number
   maxTokens?: number
   stream?: boolean
+  apiKey?: string // Client-provided API key
 }
 
 // Default provider from env (Gemini is now the default)
@@ -96,14 +98,16 @@ export async function aiChatCompletion(
   const provider = options?.provider || DEFAULT_PROVIDER
 
   if (provider === 'gemini') {
-    if (!isProviderAvailable('gemini')) {
-      throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY.')
+    // Check if we have either env key or client key
+    if (!isGeminiAvailable(options?.apiKey)) {
+      throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY or provide an API key.')
     }
     const geminiMessages = convertOpenAIMessagesToGemini(messages)
     return geminiChatCompletion(geminiMessages, {
       model: (options?.model as GeminiModel) || DEFAULT_GEMINI_MODEL,
       temperature: options?.temperature,
       maxTokens: options?.maxTokens,
+      apiKey: options?.apiKey,
     })
   }
 
@@ -135,14 +139,15 @@ export async function* aiStreamCompletion(
   const provider = options?.provider || DEFAULT_PROVIDER
 
   if (provider === 'gemini') {
-    if (!isProviderAvailable('gemini')) {
-      throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY.')
+    if (!isGeminiAvailable(options?.apiKey)) {
+      throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY or provide an API key.')
     }
     const geminiMessages = convertOpenAIMessagesToGemini(messages)
     yield* geminiStreamCompletion(geminiMessages, {
       model: (options?.model as GeminiModel) || DEFAULT_GEMINI_MODEL,
       temperature: options?.temperature,
       maxTokens: options?.maxTokens,
+      apiKey: options?.apiKey,
     })
     return
   }

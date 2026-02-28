@@ -211,6 +211,7 @@ export async function POST(req: NextRequest) {
       previousSections,
       provider,
       model,
+      apiKey,
     } = (await req.json()) as {
       sectionTitle: string
       sectionDescription: string
@@ -219,6 +220,7 @@ export async function POST(req: NextRequest) {
       previousSections?: string
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!sectionTitle || !outline || !formData) {
@@ -284,7 +286,7 @@ export async function POST(req: NextRequest) {
           content: prompt,
         },
       ],
-      { provider, model, temperature, maxTokens: 4000 }
+      { provider, model, apiKey, temperature, maxTokens: 4000 }
     )
 
     // Convert AI stream to Response stream

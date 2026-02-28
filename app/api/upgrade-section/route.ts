@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
       currentLevel,
       targetLevel,
       provider, 
-      model 
+      model,
+      apiKey
     } = await req.json() as {
       content: string
       sectionTitle?: string
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
       targetLevel?: 'Khá' | 'Tốt' | 'Xuất sắc'
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!content) {
@@ -114,7 +116,7 @@ CHỈ trả về JSON hợp lệ, không có text giải thích khác.`
           content: prompt,
         },
       ],
-      { provider, model, temperature: 0.5, maxTokens: 4000 }
+      { provider, model, apiKey, temperature: 0.5, maxTokens: 4000 }
     )
 
     let parsedResult: {

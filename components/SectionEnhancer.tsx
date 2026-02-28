@@ -53,6 +53,7 @@ export function SectionEnhancer({
           sectionTitle,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 
@@ -81,6 +82,7 @@ export function SectionEnhancer({
           topicName,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 
@@ -109,6 +111,7 @@ export function SectionEnhancer({
           topicName,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 

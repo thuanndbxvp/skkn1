@@ -75,6 +75,7 @@ export function SectionWriter({
           previousSections: previousSections || undefined,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 

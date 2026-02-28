@@ -1,9 +1,8 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// Initialize Gemini API
-const apiKey = process.env.GEMINI_API_KEY
-
-export const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null
+// Initialize Gemini API with env key (fallback)
+const envApiKey = process.env.GEMINI_API_KEY
+export const genAI = envApiKey ? new GoogleGenerativeAI(envApiKey) : null
 
 // Available Gemini Models (Updated with Gemini 3.0 & 3.1 series)
 export const GEMINI_MODELS = {
@@ -71,9 +70,18 @@ export type GeminiModel = keyof typeof GEMINI_MODELS
 
 export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-3.1-pro-preview'
 
-// Check if Gemini is available
-export function isGeminiAvailable(): boolean {
-  return !!genAI && !!apiKey
+// Helper to get Gemini client (either from env or client-provided key)
+function getGeminiClient(clientApiKey?: string): GoogleGenerativeAI | null {
+  if (clientApiKey) {
+    return new GoogleGenerativeAI(clientApiKey)
+  }
+  return genAI
+}
+
+// Check if Gemini is available (either env or client key)
+export function isGeminiAvailable(clientApiKey?: string): boolean {
+  if (clientApiKey) return true
+  return !!genAI && !!envApiKey
 }
 
 // Non-streaming completion
@@ -83,14 +91,17 @@ export async function geminiChatCompletion(
     model?: GeminiModel
     temperature?: number
     maxTokens?: number
+    apiKey?: string // Client-provided API key
   }
 ): Promise<string> {
-  if (!genAI) {
-    throw new Error('Gemini API key not configured')
+  const client = getGeminiClient(options?.apiKey)
+  
+  if (!client) {
+    throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY or provide an API key.')
   }
 
   const modelName = options?.model || DEFAULT_GEMINI_MODEL
-  const model = genAI.getGenerativeModel({
+  const model = client.getGenerativeModel({
     model: modelName,
     generationConfig: {
       temperature: options?.temperature ?? 0.7,
@@ -99,7 +110,6 @@ export async function geminiChatCompletion(
   })
 
   // Convert messages to Gemini format
-  // Gemini uses 'user' and 'model' roles (not 'system', 'assistant')
   const history = messages.slice(0, -1).map((msg) => ({
     role: msg.role === 'user' ? 'user' : 'model',
     parts: [{ text: msg.content }],
@@ -123,14 +133,17 @@ export async function* geminiStreamCompletion(
     model?: GeminiModel
     temperature?: number
     maxTokens?: number
+    apiKey?: string // Client-provided API key
   }
 ): AsyncGenerator<string, void, unknown> {
-  if (!genAI) {
-    throw new Error('Gemini API key not configured')
+  const client = getGeminiClient(options?.apiKey)
+  
+  if (!client) {
+    throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY or provide an API key.')
   }
 
   const modelName = options?.model || DEFAULT_GEMINI_MODEL
-  const model = genAI.getGenerativeModel({
+  const model = client.getGenerativeModel({
     model: modelName,
     generationConfig: {
       temperature: options?.temperature ?? 0.7,

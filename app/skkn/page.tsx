@@ -72,6 +72,7 @@ export default function SKKNPage() {
           templateText: text,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 
@@ -106,6 +107,7 @@ export default function SKKNPage() {
           templateStructure,
           provider: aiConfig.provider,
           model: aiConfig.model,
+          apiKey: aiConfig.apiKey,
         }),
       })
 

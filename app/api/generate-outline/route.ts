@@ -6,11 +6,12 @@ export const runtime = 'edge'
 
 export async function POST(req: NextRequest) {
   try {
-    const { formData, templateStructure, provider, model } = (await req.json()) as {
+    const { formData, templateStructure, provider, model, apiKey } = (await req.json()) as {
       formData: SKKNFormData
       templateStructure: Section[]
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!formData || !templateStructure) {
@@ -89,6 +90,7 @@ CHỈ trả về JSON hợp lệ, không có text khác.`
       {
         provider,
         model,
+        apiKey,
         temperature: 0.7,
         maxTokens: 4000,
       }

@@ -10,12 +10,14 @@ export async function POST(req: NextRequest) {
       content, 
       sectionTitle,
       provider, 
-      model 
+      model,
+      apiKey
     } = await req.json() as {
       content: string
       sectionTitle?: string
       provider?: AIProvider
       model?: string
+      apiKey?: string
     }
 
     if (!content) {
@@ -84,7 +86,7 @@ CHỈ trả về JSON hợp lệ, không có text giải thích khác.`
           content: prompt,
         },
       ],
-      { provider, model, temperature: 0.4, maxTokens: 4000 }
+      { provider, model, apiKey, temperature: 0.4, maxTokens: 4000 }
     )
 
     let parsedResult: {
