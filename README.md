@@ -15,11 +15,6 @@
 - 💾 **Lưu trữ tự động**: Session storage giữ dữ liệu khi reload trang
 - 📱 **Responsive**: Hoạt động tốt trên mọi thiết bị
 
-## 🚀 Demo & Video hướng dẫn
-
-- 📹 **Video hướng dẫn**: [https://youtu.be/zWGI5ad4HQA](https://youtu.be/zWGI5ad4HQA)
-- 🌐 **Website gốc**: [https://giaovienai.vercel.app](https://giaovienai.vercel.app)
-
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
@@ -389,19 +384,12 @@ Mọi đóng góp đều được hoan nghênh!
 
 MIT License - xem file [LICENSE](LICENSE) để biết thêm chi tiết.
 
-## 👤 Tác giả
-
-**Trần Hoài Thanh**
-- Facebook: [@tranhoaithanhvicko](https://www.facebook.com/tranhoaithanhvicko)
-- Website: [giaovienai.vercel.app](https://giaovienai.vercel.app)
-
 ## 💝 Hỗ trợ dự án
 
 Nếu bạn thấy SKKN Pro hữu ích, hãy:
 - ⭐ Star repository này
 - 📢 Chia sẻ với đồng nghiệp
 - 💬 Để lại feedback
-- ☕ [Mua tác giả một ly cà phê](https://ko-fi.com/tranhoaithanh) (optional)
 
 ## 🙏 Cảm ơn
 
