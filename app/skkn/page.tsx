@@ -12,7 +12,6 @@ import { OutlineEditor } from '@/components/OutlineEditor'
 import { SectionWriter } from '@/components/SectionWriter'
 import { ExportButton } from '@/components/ExportButton'
 import { AIConfigBadge } from '@/components/AIConfigPanel'
-import { AIConfigInline } from '@/components/AIConfigInline'
 import { useSKKNStore } from '@/lib/store'
 import { Section, OutlineItem, WrittenSection } from '@/lib/types'
 import { ArrowLeft, RefreshCw, Sparkles } from 'lucide-react'
@@ -68,7 +67,7 @@ export default function SKKNPage() {
       const response = await fetch('/api/analyze-template', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           templateText: text,
           provider: aiConfig.provider,
           model: aiConfig.model,
@@ -195,10 +194,7 @@ export default function SKKNPage() {
         </div>
       </header>
 
-      {/* AI Config - Hiển thị ở giữa màn hình */}
-      <div className="container mx-auto px-4 py-6">
-        <AIConfigInline />
-      </div>
+      {/* AI Config - Removed per user request */}
 
       {/* Step Indicator */}
       <div className="container mx-auto px-4">

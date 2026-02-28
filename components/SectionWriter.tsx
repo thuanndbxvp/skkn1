@@ -38,6 +38,7 @@ export function SectionWriter({
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
   const [isWriting, setIsWriting] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [isAutoWriting, setIsAutoWriting] = useState(false)
 
   const totalSections = outline.length
   const completedCount = sections.filter(
@@ -120,6 +121,7 @@ export function SectionWriter({
       }
     } catch (error: any) {
       toast.error(error.message || 'Không thể viết phần này')
+      setIsAutoWriting(false)
       const errorSection: WrittenSection = {
         id: outlineItem.id,
         title: outlineItem.title,
@@ -149,12 +151,32 @@ export function SectionWriter({
     toast.success('Đã lưu chỉnh sửa')
   }
 
-  // Auto-write first section
+  // Auto-write first section or continue auto-writing next section
   useEffect(() => {
-    if (sections.length === 0 && outline.length > 0 && !isWriting) {
+    if (sections.length === 0 && outline.length > 0 && !isWriting && !isAutoWriting) {
       writeSection(0)
     }
   }, [outline])
+
+  // Effect to handle Auto-write flow
+  useEffect(() => {
+    if (isAutoWriting && !isWriting) {
+      const nextIndex = currentSectionIndex + 1
+      if (nextIndex < totalSections) {
+        if (sections.find((s) => s.order === outline[nextIndex].order && s.status === 'completed')) {
+          // Skip if already completed (guard)
+          setCurrentSectionIndex(nextIndex)
+        } else {
+          // Add a small delay for UX before writing next part
+          setTimeout(() => {
+            writeSection(nextIndex)
+          }, 1000)
+        }
+      } else {
+        setIsAutoWriting(false)
+      }
+    }
+  }, [isWriting, isAutoWriting, currentSectionIndex, totalSections])
 
   return (
     <div className="space-y-6">
@@ -274,30 +296,50 @@ export function SectionWriter({
       </div>
 
       {/* Action Buttons */}
-      {!isWriting && (
-        <div className="flex gap-3">
-          {currentSectionIndex < totalSections - 1 && (
-            <Button
-              onClick={() => writeSection(currentSectionIndex + 1)}
-              className="flex-1"
-              size="lg"
-            >
-              <ChevronRight className="w-5 h-5 mr-2" />
-              Viết phần tiếp theo
-            </Button>
-          )}
-          {currentSection?.status === 'completed' && (
-            <Button
-              onClick={() => writeSection(currentSectionIndex, true)}
-              variant="outline"
-              size="lg"
-            >
-              <RefreshCw className="w-5 h-5 mr-2" />
-              Viết lại phần này
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="flex gap-3 mt-6">
+        {currentSectionIndex < totalSections - 1 && !isWriting && (
+          <Button
+            onClick={() => writeSection(currentSectionIndex + 1)}
+            className="flex-1"
+            size="lg"
+            variant="outline"
+          >
+            <ChevronRight className="w-5 h-5 mr-2" />
+            Viết phần tiếp theo
+          </Button>
+        )}
+
+        {currentSectionIndex < totalSections - 1 && (
+          <Button
+            onClick={() => setIsAutoWriting(!isAutoWriting)}
+            className={cn("flex-1", isAutoWriting ? "bg-amber-600 hover:bg-amber-700" : "")}
+            size="lg"
+          >
+            {isAutoWriting ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Dừng tự động viết
+              </>
+            ) : (
+              <>
+                <RefreshCw className="w-5 h-5 mr-2" />
+                Tự động viết tất cả
+              </>
+            )}
+          </Button>
+        )}
+
+        {currentSection?.status === 'completed' && !isWriting && !isAutoWriting && (
+          <Button
+            onClick={() => writeSection(currentSectionIndex, true)}
+            variant="outline"
+            size="lg"
+          >
+            <RefreshCw className="w-5 h-5 mr-2" />
+            Viết lại phần này
+          </Button>
+        )}
+      </div>
 
       {/* Info */}
       {!isWriting && completedCount === 0 && (

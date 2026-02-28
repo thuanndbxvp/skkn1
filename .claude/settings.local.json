@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"D:\\\\skkn1\"\" -type f -name \".* \" -o -type f)",
+      "Bash(git push origin main)",
+      "Bash(curl -X POST https://skkn.studyai86.online/api/suggest-topics -H \"Content-Type: application/json\" -d '{\"\"subject\"\":\"\"Toán\"\",\"\"level\"\":\"\"THPT\"\",\"\"grade\"\":\"\"11\"\"}' -s)",
+      "Bash(git push)",
+      "Bash(test -f vercel.json)",
+      "Bash(test -f .env)",
+      "Bash(git pull --rebase origin main)",
+      "Bash(git add app/page.tsx)",
+      "Bash(git commit -m \"fix: cập nhật tên tác giả và xóa dòng link giaovienai.vercel.app trong footer\")"
+    ]
+  }
+}
