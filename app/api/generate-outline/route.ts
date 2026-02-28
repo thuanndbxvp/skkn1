@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { aiChatCompletion, AIProvider } from '@/lib/ai'
 import { OutlineItem, Section, SKKNFormData } from '@/lib/types'
 
-export const runtime = 'edge'
-
 export async function POST(req: NextRequest) {
   try {
     const { formData, templateStructure, provider, model, apiKey } = (await req.json()) as {

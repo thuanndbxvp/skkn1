@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiChatCompletion, AIProvider } from '@/lib/ai'
 
-export const runtime = 'edge'
-
 export async function POST(req: NextRequest) {
   try {
-    const { 
-      subject, 
+    const {
+      subject,
       grade, 
       level, 
       currentTopic, 

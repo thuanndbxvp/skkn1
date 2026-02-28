@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiChatCompletion, AIProvider } from '@/lib/ai'
 
-export const runtime = 'edge'
-
 // PROMPT 7: CHIẾN LƯỢC NÂNG HẠNG (TỪ ĐẠT -> TỐT)
 export async function POST(req: NextRequest) {
   try {

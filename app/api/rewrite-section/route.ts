@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiChatCompletion, AIProvider } from '@/lib/ai'
 
-export const runtime = 'edge'
-
 // PROMPT 5: CHUẨN HÓA NGÔN NGỮ (CHỮA LỖI VĂN PHONG)
 export async function POST(req: NextRequest) {
   try {

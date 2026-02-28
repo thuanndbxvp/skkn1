@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { aiChatCompletion, AIProvider } from '@/lib/ai'
 
-export const runtime = 'edge'
-
 // PROMPT 6: RÀ SOÁT LỖI (RED TEAMING)
 export async function POST(req: NextRequest) {
   try {

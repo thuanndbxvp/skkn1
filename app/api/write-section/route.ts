@@ -2,8 +2,6 @@ import { NextRequest } from 'next/server'
 import { aiStreamCompletion, AIProvider } from '@/lib/ai'
 import { OutlineItem, SKKNFormData } from '@/lib/types'
 
-export const runtime = 'edge'
-
 // Helper to detect section type from title
 function detectSectionType(title: string): 'theoretical' | 'solution' | 'conclusion' | 'general' {
   const normalizedTitle = title.toLowerCase()
