@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
@@ -91,6 +92,11 @@ export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
 export function AIConfigBadge() {
   const { aiConfig, setAIConfig } = useSKKNStore()
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const modelName = AI_MODELS['gemini'].find(
     (m) => m.id === aiConfig.model
@@ -113,12 +119,13 @@ export function AIConfigBadge() {
         </span>
       </button>
 
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      {isOpen && mounted && createPortal(
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 pt-20">
           <div className="max-w-md w-full">
             <AIConfigPanel onClose={() => setIsOpen(false)} />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
