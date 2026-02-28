@@ -4,30 +4,54 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const envApiKey = process.env.GEMINI_API_KEY
 export const genAI = envApiKey ? new GoogleGenerativeAI(envApiKey) : null
 
-// Available Gemini Models (Confirmed working models only)
+// Available Gemini Models
 export const GEMINI_MODELS = {
-  // Stable models - verified working
-  'gemini-1.5-flash': {
-    name: 'Gemini 1.5 Flash',
+  // ===== Gemini 3.x Series (Mới nhất 2025) =====
+  'gemini-3.1-pro-preview': {
+    name: 'Gemini 3.1 Pro Preview',
+    description: 'Mô hình tiên tiến nhất: tư duy logic, lập luận phức tạp, coding & agentic workflows',
+    maxTokens: 8192,
+    badge: 'Mới nhất',
+  },
+  'gemini-3-flash-preview': {
+    name: 'Gemini 3 Flash Preview',
+    description: 'Cân bằng tối ưu giữa tốc độ phản hồi và chất lượng đầu ra',
+    maxTokens: 8192,
+    badge: 'Nhanh',
+  },
+  // ===== Gemini 2.x Series (Ổn định) =====
+  'gemini-2.0-flash': {
+    name: 'Gemini 2.0 Flash',
     description: 'Nhanh, ổn định, phù hợp hầu hết tác vụ',
     maxTokens: 8192,
     isRecommended: true,
   },
+  'gemini-2.0-flash-lite': {
+    name: 'Gemini 2.0 Flash Lite',
+    description: 'Nhẹ và nhanh nhất, tiết kiệm quota',
+    maxTokens: 8192,
+  },
+  // ===== Gemini 1.5 Series (Legacy, vẫn hoạt động) =====
+  'gemini-1.5-flash': {
+    name: 'Gemini 1.5 Flash',
+    description: 'Phiên bản cũ - nhanh, ổn định',
+    maxTokens: 8192,
+  },
   'gemini-1.5-flash-8b': {
     name: 'Gemini 1.5 Flash 8B',
-    description: 'Nhẹ, nhanh cho tác vụ cơ bản',
+    description: 'Phiên bản cũ - nhẹ, cho tác vụ cơ bản',
     maxTokens: 8192,
   },
   'gemini-1.5-pro': {
     name: 'Gemini 1.5 Pro',
-    description: 'Chất lượng cao cho tác vụ phức tạp',
+    description: 'Phiên bản cũ - chất lượng cao',
     maxTokens: 8192,
   },
 }
 
 export type GeminiModel = keyof typeof GEMINI_MODELS
 
-export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-1.5-flash'
+export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-2.0-flash'
 
 // Helper to get Gemini client (either from env or client-provided key)
 function getGeminiClient(clientApiKey?: string): GoogleGenerativeAI | null {
@@ -66,12 +90,7 @@ export async function geminiChatCompletion(
     }
 
     const modelName = options?.model || DEFAULT_GEMINI_MODEL
-    
-    // Validate model name
-    if (!GEMINI_MODELS[modelName]) {
-      console.warn(`Model ${modelName} not in supported list, using default`)
-    }
-    
+
     const model = client.getGenerativeModel({
       model: modelName,
       generationConfig: {

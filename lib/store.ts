@@ -68,7 +68,7 @@ const initialFormData: SKKNFormData = {
 
 const initialAIConfig: AIConfig = {
   provider: 'gemini',
-  model: 'gemini-1.5-flash',
+  model: 'gemini-2.0-flash',
 }
 
 export const useSKKNStore = create<SKKNState>()(
