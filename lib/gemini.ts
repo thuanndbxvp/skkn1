@@ -5,27 +5,38 @@ const apiKey = process.env.GEMINI_API_KEY
 
 export const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null
 
-// Available Gemini Models (Updated with latest models)
+// Available Gemini Models (Updated with Gemini 3.0 & 3.1 series)
 export const GEMINI_MODELS = {
-  // Gemini 2.5 Series (Latest - Best quality)
+  // Gemini 3.1 Series (Newest - Most advanced)
+  'gemini-3.1-pro-preview': {
+    name: 'Gemini 3.1 Pro Preview',
+    description: 'Mới nhất - Tư duy logic, lập luận phức tạp, tác vụ agentic workflows',
+    maxTokens: 8192,
+    isNewest: true,
+  },
+  // Gemini 3.0 Series (Latest)
+  'gemini-3-flash-preview': {
+    name: 'Gemini 3 Flash Preview',
+    description: 'Tối ưu cân bằng tốc độ phản hồi và chất lượng đầu ra',
+    maxTokens: 8192,
+    isNew: true,
+  },
+  // Gemini 2.5 Series
   'gemini-2.5-pro-preview-03-25': {
     name: 'Gemini 2.5 Pro (Preview)',
-    description: 'Mới nhất - Chất lượng cao nhất, tư duy nâng cao',
+    description: 'Chất lượng cao, tư duy nâng cao',
     maxTokens: 65536,
-    isNew: true,
   },
   'gemini-2.5-flash-preview-04-17': {
     name: 'Gemini 2.5 Flash (Preview)',
-    description: 'Mới nhất - Cân bằng tốc độ và chất lượng',
+    description: 'Cân bằng tốc độ và chất lượng',
     maxTokens: 8192,
-    isNew: true,
   },
-  // Gemini 2.0 Series (Latest stable)
+  // Gemini 2.0 Series
   'gemini-2.0-flash': {
     name: 'Gemini 2.0 Flash',
-    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ (Khuyến nghị)',
+    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ',
     maxTokens: 8192,
-    isRecommended: true,
   },
   'gemini-2.0-flash-lite': {
     name: 'Gemini 2.0 Flash Lite',
@@ -38,7 +49,7 @@ export const GEMINI_MODELS = {
     maxTokens: 8192,
     isExperimental: true,
   },
-  // Gemini 1.5 Series (Legacy but stable)
+  // Gemini 1.5 Series (Legacy)
   'gemini-1.5-pro': {
     name: 'Gemini 1.5 Pro',
     description: 'Chất lượng cao, phù hợp tác vụ phức tạp',
@@ -58,7 +69,7 @@ export const GEMINI_MODELS = {
 
 export type GeminiModel = keyof typeof GEMINI_MODELS
 
-export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-2.0-flash'
+export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-3.1-pro-preview'
 
 // Check if Gemini is available
 export function isGeminiAvailable(): boolean {
