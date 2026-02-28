@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
@@ -15,7 +15,14 @@ export function AIConfigInline() {
   const { aiConfig, setAIConfig } = useSKKNStore()
   const [model, setModel] = useState(aiConfig.model)
   const [apiKey, setApiKey] = useState(aiConfig.apiKey || '')
-  const [isExpanded, setIsExpanded] = useState(!aiConfig.apiKey) // Mở rộng nếu chưa có key
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  // Auto-expand if no API key
+  useEffect(() => {
+    if (!aiConfig.apiKey) {
+      setIsExpanded(true)
+    }
+  }, [aiConfig.apiKey])
 
   const handleSave = () => {
     setAIConfig({

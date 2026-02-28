@@ -142,7 +142,7 @@ export const useSKKNStore = create<SKKNState>()(
       setIsLoading: (loading) => set({ isLoading: loading }),
 
       resetAll: () =>
-        set({
+        set((state) => ({
           currentStep: 'upload',
           templateFile: null,
           templateText: '',
@@ -150,9 +150,10 @@ export const useSKKNStore = create<SKKNState>()(
           formData: initialFormData,
           outline: [],
           sections: [],
-          aiConfig: initialAIConfig,
+          // Keep aiConfig unchanged - don't reset API key
+          aiConfig: state.aiConfig,
           isLoading: false,
-        }),
+        })),
     }),
     {
       name: 'skkn-storage',
