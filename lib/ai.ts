@@ -112,6 +112,10 @@ export async function aiChatCompletion(
     throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY.')
   }
 
+  if (!openai) {
+    throw new Error('OpenAI client not initialized.')
+  }
+
   const response = await openai.chat.completions.create({
     model: options?.model || DEFAULT_OPENAI_MODEL,
     messages: messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
@@ -146,6 +150,10 @@ export async function* aiStreamCompletion(
   // OpenAI
   if (!isProviderAvailable('openai')) {
     throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY.')
+  }
+
+  if (!openai) {
+    throw new Error('OpenAI client not initialized.')
   }
 
   const stream = await openai.chat.completions.create({
