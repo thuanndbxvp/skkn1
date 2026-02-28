@@ -94,7 +94,7 @@ export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
           }))}
         />
         <p className="text-xs text-gray-500">
-          💡 <strong>Gợi ý:</strong> Gemini 3.1 Pro Preview cho chất lượng cao nhất • Gemini 2.0 Flash cho cân bằng tốt
+          💡 <strong>Gợi ý:</strong> Gemini 3.1 Pro Preview cho chất lượng cao nhất • Gemini 3 Flash Preview cho tốc độ tối ưu
         </p>
       </div>
 

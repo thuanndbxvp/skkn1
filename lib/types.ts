@@ -324,7 +324,7 @@ export interface AIConfig {
 
 export const AI_PROVIDERS: { id: AIProvider; name: string; description: string }[] = [
   { id: 'openai', name: 'OpenAI', description: 'GPT-4o, GPT-4o-mini' },
-  { id: 'gemini', name: 'Google Gemini', description: 'Gemini 3.1 Pro Preview, Gemini 3 Flash Preview, Gemini 2.0 Flash' },
+  { id: 'gemini', name: 'Google Gemini', description: 'Gemini 3.1 Pro Preview, Gemini 3 Flash Preview' },
 ]
 
 // Available models for each provider
@@ -347,35 +347,7 @@ export const AI_MODELS: Record<AIProvider, { id: string; name: string; descripti
       id: 'gemini-3-flash-preview',
       name: 'Gemini 3 Flash Preview',
       description: 'Cân bằng tối ưu giữa tốc độ phản hồi và chất lượng đầu ra',
-      badge: 'Nhanh',
-    },
-    // ===== Gemini 2.x Series (Ổn định - Khuyến nghị) =====
-    {
-      id: 'gemini-2.0-flash',
-      name: 'Gemini 2.0 Flash',
-      description: 'Nhanh, ổn định, phù hợp hầu hết tác vụ',
       badge: 'Khuyến nghị',
-    },
-    {
-      id: 'gemini-2.0-flash-lite',
-      name: 'Gemini 2.0 Flash Lite',
-      description: 'Nhẹ và nhanh nhất, tiết kiệm quota',
-    },
-    // ===== Gemini 1.5 Series (Legacy) =====
-    {
-      id: 'gemini-1.5-flash',
-      name: 'Gemini 1.5 Flash',
-      description: 'Phiên bản cũ - nhanh, ổn định',
-    },
-    {
-      id: 'gemini-1.5-flash-8b',
-      name: 'Gemini 1.5 Flash 8B',
-      description: 'Phiên bản cũ - nhẹ, cho tác vụ cơ bản',
-    },
-    {
-      id: 'gemini-1.5-pro',
-      name: 'Gemini 1.5 Pro',
-      description: 'Phiên bản cũ - chất lượng cao',
     },
   ],
 }
