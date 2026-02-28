@@ -327,7 +327,7 @@ export const AI_PROVIDERS: { id: AIProvider; name: string; description: string }
   { id: 'gemini', name: 'Google Gemini', description: 'Gemini 2.0 Flash, Gemini 1.5 Pro' },
 ]
 
-// Available models for each provider (Updated with Gemini 3.0 & 3.1 series)
+// Available models for each provider (Confirmed working models)
 export const AI_MODELS: Record<AIProvider, { id: string; name: string; description: string; badge?: string }[]> = {
   openai: [
     { id: 'gpt-4o-mini', name: 'GPT-4o Mini', description: 'Nhanh, rẻ, chất lượng tốt' },
@@ -336,20 +336,13 @@ export const AI_MODELS: Record<AIProvider, { id: string; name: string; descripti
     { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', description: 'Nhanh, giá rẻ' },
   ],
   gemini: [
-    // Gemini 3.1 (Newest - Most advanced)
-    { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro Preview', description: 'Mới nhất - Tư duy logic, lập luận phức tạp, tác vụ agentic workflows', badge: 'Mới nhất' },
-    // Gemini 3.0
-    { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash Preview', description: 'Tối ưu cân bằng tốc độ phản hồi và chất lượng đầu ra', badge: 'Mới' },
-    // Gemini 2.5
-    { id: 'gemini-2.5-pro-preview-03-25', name: 'Gemini 2.5 Pro (Preview)', description: 'Chất lượng cao, tư duy nâng cao' },
-    { id: 'gemini-2.5-flash-preview-04-17', name: 'Gemini 2.5 Flash (Preview)', description: 'Cân bằng tốc độ và chất lượng' },
-    // Gemini 2.0
-    { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ' },
+    // Gemini 2.0 (Stable and recommended)
+    { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ', badge: 'Khuyến nghị' },
     { id: 'gemini-2.0-flash-lite', name: 'Gemini 2.0 Flash Lite', description: 'Nhẹ, rẻ nhất, phù hợp tác vụ đơn giản' },
     { id: 'gemini-2.0-pro-exp-02-05', name: 'Gemini 2.0 Pro (Exp)', description: 'Thử nghiệm - Chất lượng cao cho tác vụ phức tạp', badge: 'Thử nghiệm' },
-    // Gemini 1.5
+    // Gemini 1.5 (Stable)
     { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', description: 'Chất lượng cao, phù hợp tác vụ phức tạp' },
-    { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', description: 'Cân bằng tốc độ và chất lượng (Phiên bản cũ)' },
+    { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', description: 'Cân bằng tốc độ và chất lượng' },
     { id: 'gemini-1.5-flash-8b', name: 'Gemini 1.5 Flash 8B', description: 'Nhẹ, nhanh cho tác vụ cơ bản' },
   ],
 }

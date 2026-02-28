@@ -4,38 +4,14 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const envApiKey = process.env.GEMINI_API_KEY
 export const genAI = envApiKey ? new GoogleGenerativeAI(envApiKey) : null
 
-// Available Gemini Models (Updated with Gemini 3.0 & 3.1 series)
+// Available Gemini Models (Confirmed working models only)
 export const GEMINI_MODELS = {
-  // Gemini 3.1 Series (Newest - Most advanced)
-  'gemini-3.1-pro-preview': {
-    name: 'Gemini 3.1 Pro Preview',
-    description: 'Mới nhất - Tư duy logic, lập luận phức tạp, tác vụ agentic workflows',
-    maxTokens: 8192,
-    isNewest: true,
-  },
-  // Gemini 3.0 Series (Latest)
-  'gemini-3-flash-preview': {
-    name: 'Gemini 3 Flash Preview',
-    description: 'Tối ưu cân bằng tốc độ phản hồi và chất lượng đầu ra',
-    maxTokens: 8192,
-    isNew: true,
-  },
-  // Gemini 2.5 Series
-  'gemini-2.5-pro-preview-03-25': {
-    name: 'Gemini 2.5 Pro (Preview)',
-    description: 'Chất lượng cao, tư duy nâng cao',
-    maxTokens: 65536,
-  },
-  'gemini-2.5-flash-preview-04-17': {
-    name: 'Gemini 2.5 Flash (Preview)',
-    description: 'Cân bằng tốc độ và chất lượng',
-    maxTokens: 8192,
-  },
-  // Gemini 2.0 Series
+  // Gemini 2.0 Series (Stable and recommended)
   'gemini-2.0-flash': {
     name: 'Gemini 2.0 Flash',
-    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ',
+    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ (Khuyến nghị)',
     maxTokens: 8192,
+    isRecommended: true,
   },
   'gemini-2.0-flash-lite': {
     name: 'Gemini 2.0 Flash Lite',
@@ -48,7 +24,7 @@ export const GEMINI_MODELS = {
     maxTokens: 8192,
     isExperimental: true,
   },
-  // Gemini 1.5 Series (Legacy)
+  // Gemini 1.5 Series (Stable)
   'gemini-1.5-pro': {
     name: 'Gemini 1.5 Pro',
     description: 'Chất lượng cao, phù hợp tác vụ phức tạp',
@@ -56,7 +32,7 @@ export const GEMINI_MODELS = {
   },
   'gemini-1.5-flash': {
     name: 'Gemini 1.5 Flash',
-    description: 'Cân bằng tốc độ và chất lượng (Phiên bản cũ)',
+    description: 'Cân bằng tốc độ và chất lượng',
     maxTokens: 8192,
   },
   'gemini-1.5-flash-8b': {
@@ -68,7 +44,7 @@ export const GEMINI_MODELS = {
 
 export type GeminiModel = keyof typeof GEMINI_MODELS
 
-export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-3.1-pro-preview'
+export const DEFAULT_GEMINI_MODEL: GeminiModel = 'gemini-2.0-flash'
 
 // Helper to get Gemini client (either from env or client-provided key)
 function getGeminiClient(clientApiKey?: string): GoogleGenerativeAI | null {

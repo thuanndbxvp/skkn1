@@ -112,8 +112,9 @@ CHỈ trả về JSON hợp lệ, không có text giải thích khác.`
     return NextResponse.json({ suggestions })
   } catch (error: any) {
     console.error('Error suggesting topics:', error)
+    console.error('Error stack:', error.stack)
     return NextResponse.json(
-      { error: error.message || 'Failed to suggest topics' },
+      { error: error.message || 'Failed to suggest topics', details: error.stack },
       { status: 500 }
     )
   }
