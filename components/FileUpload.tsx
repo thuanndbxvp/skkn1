@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn, formatFileSize } from '@/lib/utils'
 import { parseFile, validateFileSize, validateFileType } from '@/lib/parseFile'
+import { useSKKNStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 
 interface FileUploadProps {
@@ -21,6 +22,7 @@ export function FileUpload({
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const { aiConfig } = useSKKNStore()
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()

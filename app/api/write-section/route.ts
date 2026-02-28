@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { streamCompletion } from '@/lib/openai'
+import { aiStreamCompletion, AIProvider } from '@/lib/ai'
 import { OutlineItem, SKKNFormData } from '@/lib/types'
 
 export const runtime = 'edge'
@@ -12,12 +12,16 @@ export async function POST(req: NextRequest) {
       outline,
       formData,
       previousSections,
+      provider,
+      model,
     } = (await req.json()) as {
       sectionTitle: string
       sectionDescription: string
       outline: OutlineItem[]
       formData: SKKNFormData
       previousSections?: string
+      provider?: AIProvider
+      model?: string
     }
 
     if (!sectionTitle || !outline || !formData) {
@@ -73,27 +77,30 @@ ${formData.includeRealProblems ? '9. Bổ sung bài toán/ví dụ thực tế m
 
 HÃY VIẾT NGAY NỘI DUNG, KHÔNG CẦN GIẢI THÍCH GÌ THÊM.`
 
-    const stream = await streamCompletion([
-      {
-        role: 'system',
-        content:
-          'Bạn là chuyên gia viết SKKN. Viết văn học thuật chuyên nghiệp, có số liệu cụ thể.',
-      },
-      {
-        role: 'user',
-        content: prompt,
-      },
-    ])
+    // Use unified AI streaming
+    const aiStream = aiStreamCompletion(
+      [
+        {
+          role: 'system',
+          content:
+            'Bạn là chuyên gia viết SKKN. Viết văn học thuật chuyên nghiệp, có số liệu cụ thể.',
+        },
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      { provider, model, temperature: 0.7, maxTokens: 4000 }
+    )
 
-    // Convert OpenAI stream to Response stream
+    // Convert AI stream to Response stream
     const encoder = new TextEncoder()
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content || ''
-            if (content) {
-              controller.enqueue(encoder.encode(content))
+          for await (const chunk of aiStream) {
+            if (chunk) {
+              controller.enqueue(encoder.encode(chunk))
             }
           }
           controller.close()

@@ -11,6 +11,7 @@ import { InfoForm } from '@/components/InfoForm'
 import { OutlineEditor } from '@/components/OutlineEditor'
 import { SectionWriter } from '@/components/SectionWriter'
 import { ExportButton } from '@/components/ExportButton'
+import { AIConfigBadge } from '@/components/AIConfigPanel'
 import { useSKKNStore } from '@/lib/store'
 import { Section, OutlineItem, WrittenSection } from '@/lib/types'
 import { ArrowLeft, RefreshCw, Sparkles } from 'lucide-react'
@@ -27,6 +28,7 @@ export default function SKKNPage() {
     outline,
     sections,
     isLoading,
+    aiConfig,
     setTemplateFile,
     setTemplateText,
     setTemplateStructure,
@@ -65,7 +67,11 @@ export default function SKKNPage() {
       const response = await fetch('/api/analyze-template', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ templateText: text }),
+        body: JSON.stringify({ 
+          templateText: text,
+          provider: aiConfig.provider,
+          model: aiConfig.model,
+        }),
       })
 
       if (!response.ok) throw new Error('Failed to analyze template')
@@ -97,6 +103,8 @@ export default function SKKNPage() {
         body: JSON.stringify({
           formData,
           templateStructure,
+          provider: aiConfig.provider,
+          model: aiConfig.model,
         }),
       })
 
@@ -173,10 +181,13 @@ export default function SKKNPage() {
                 </div>
               </div>
             </div>
-            <Button variant="outline" onClick={handleReset}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Bắt đầu lại
-            </Button>
+            <div className="flex items-center gap-3">
+              <AIConfigBadge />
+              <Button variant="outline" onClick={handleReset}>
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Bắt đầu lại
+              </Button>
+            </div>
           </div>
         </div>
       </header>

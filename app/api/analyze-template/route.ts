@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatCompletion } from '@/lib/openai'
+import { aiChatCompletion, AIProvider } from '@/lib/ai'
 import { Section } from '@/lib/types'
 
 export const runtime = 'edge'
 
 export async function POST(req: NextRequest) {
   try {
-    const { templateText } = await req.json()
+    const { templateText, provider, model } = await req.json() as { 
+      templateText: string
+      provider?: AIProvider
+      model?: string
+    }
 
     if (!templateText || typeof templateText !== 'string') {
       return NextResponse.json(
@@ -42,19 +46,20 @@ Trả về JSON với cấu trúc:
 
 CHỈ trả về JSON, không có text giải thích khác.`
 
-    const response = await chatCompletion([
-      {
-        role: 'system',
-        content:
-          'Bạn là chuyên gia phân tích cấu trúc văn bản. Luôn trả về JSON hợp lệ.',
-      },
-      {
-        role: 'user',
-        content: prompt,
-      },
-    ])
-
-    const content = response.choices[0]?.message?.content || '{}'
+    const content = await aiChatCompletion(
+      [
+        {
+          role: 'system',
+          content:
+            'Bạn là chuyên gia phân tích cấu trúc văn bản. Luôn trả về JSON hợp lệ.',
+        },
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      { provider, model }
+    )
     
     // Parse JSON from response
     let sections: Section[] = []

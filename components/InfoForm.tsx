@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
 import { Card } from '@/components/ui/card'
 import { SKKNFormData, SUBJECTS, LEVELS } from '@/lib/types'
+import { useSKKNStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 
 interface InfoFormProps {
@@ -18,6 +19,7 @@ interface InfoFormProps {
 }
 
 export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
+  const { aiConfig } = useSKKNStore()
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false)
@@ -38,6 +40,8 @@ export function InfoForm({ formData, onUpdate, onSubmit }: InfoFormProps) {
           level: formData.level,
           grade: formData.grade,
           currentTopic: formData.topicName,
+          provider: aiConfig.provider,
+          model: aiConfig.model,
         }),
       })
 

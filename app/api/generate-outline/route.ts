@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { chatCompletion } from '@/lib/openai'
+import { aiChatCompletion, AIProvider } from '@/lib/ai'
 import { OutlineItem, Section, SKKNFormData } from '@/lib/types'
 
 export const runtime = 'edge'
 
 export async function POST(req: NextRequest) {
   try {
-    const { formData, templateStructure } = (await req.json()) as {
+    const { formData, templateStructure, provider, model } = (await req.json()) as {
       formData: SKKNFormData
       templateStructure: Section[]
+      provider?: AIProvider
+      model?: string
     }
 
     if (!formData || !templateStructure) {
@@ -72,7 +74,7 @@ Trả về JSON:
 
 CHỈ trả về JSON hợp lệ, không có text khác.`
 
-    const response = await chatCompletion(
+    const content = await aiChatCompletion(
       [
         {
           role: 'system',
@@ -85,12 +87,12 @@ CHỈ trả về JSON hợp lệ, không có text khác.`
         },
       ],
       {
+        provider,
+        model,
         temperature: 0.7,
         maxTokens: 4000,
       }
     )
-
-    const content = response.choices[0]?.message?.content || '{}'
     
     let outline: OutlineItem[] = []
     try {

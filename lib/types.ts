@@ -312,3 +312,34 @@ export const STEPS: StepConfig[] = [
     order: 6,
   },
 ]
+
+// AI Provider Types
+export type AIProvider = 'openai' | 'gemini'
+
+export interface AIConfig {
+  provider: AIProvider
+  model: string
+  apiKey?: string // For client-side usage (optional, can use server env)
+}
+
+export const AI_PROVIDERS: { id: AIProvider; name: string; description: string }[] = [
+  { id: 'openai', name: 'OpenAI', description: 'GPT-4o, GPT-4o-mini' },
+  { id: 'gemini', name: 'Google Gemini', description: 'Gemini 2.0 Flash, Gemini 1.5 Pro' },
+]
+
+// Available models for each provider
+export const AI_MODELS: Record<AIProvider, { id: string; name: string; description: string }[]> = {
+  openai: [
+    { id: 'gpt-4o-mini', name: 'GPT-4o Mini', description: 'Nhanh, rẻ, chất lượng tốt (khuyến nghị)' },
+    { id: 'gpt-4o', name: 'GPT-4o', description: 'Chất lượng cao nhất' },
+    { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', description: 'Cân bằng chất lượng và giá' },
+    { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', description: 'Nhanh, giá rẻ' },
+  ],
+  gemini: [
+    { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ' },
+    { id: 'gemini-2.0-flash-lite', name: 'Gemini 2.0 Flash Lite', description: 'Nhẹ, rẻ nhất' },
+    { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', description: 'Cân bằng tốc độ và chất lượng' },
+    { id: 'gemini-1.5-flash-8b', name: 'Gemini 1.5 Flash 8B', description: 'Nhẹ, nhanh cho tác vụ cơ bản' },
+    { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', description: 'Chất lượng cao nhất, phức tạp' },
+  ],
+}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { WrittenSection, OutlineItem, SKKNFormData } from '@/lib/types'
+import { useSKKNStore } from '@/lib/store'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -32,6 +33,7 @@ export function SectionWriter({
   onSectionComplete,
   onSectionUpdate,
 }: SectionWriterProps) {
+  const { aiConfig } = useSKKNStore()
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
   const [isWriting, setIsWriting] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -70,6 +72,8 @@ export function SectionWriter({
           outline,
           formData,
           previousSections: previousSections || undefined,
+          provider: aiConfig.provider,
+          model: aiConfig.model,
         }),
       })
 

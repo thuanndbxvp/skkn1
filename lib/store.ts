@@ -7,6 +7,8 @@ import {
   WrittenSection,
   StepType,
   DEFAULT_TEMPLATES,
+  AIProvider,
+  AIConfig,
 } from './types'
 
 interface SKKNState {
@@ -38,6 +40,10 @@ interface SKKNState {
   updateSection: (id: string, updates: Partial<WrittenSection>) => void
   clearSections: () => void
 
+  // AI Configuration
+  aiConfig: AIConfig
+  setAIConfig: (config: Partial<AIConfig>) => void
+
   // Loading states
   isLoading: boolean
   setIsLoading: (loading: boolean) => void
@@ -60,6 +66,11 @@ const initialFormData: SKKNFormData = {
   includeRealProblems: false,
 }
 
+const initialAIConfig: AIConfig = {
+  provider: 'openai',
+  model: 'gpt-4o-mini',
+}
+
 export const useSKKNStore = create<SKKNState>()(
   persist(
     (set, get) => ({
@@ -71,6 +82,7 @@ export const useSKKNStore = create<SKKNState>()(
       formData: initialFormData,
       outline: [],
       sections: [],
+      aiConfig: initialAIConfig,
       isLoading: false,
 
       // Actions
@@ -122,6 +134,11 @@ export const useSKKNStore = create<SKKNState>()(
 
       clearSections: () => set({ sections: [] }),
 
+      setAIConfig: (config) =>
+        set((state) => ({
+          aiConfig: { ...state.aiConfig, ...config },
+        })),
+
       setIsLoading: (loading) => set({ isLoading: loading }),
 
       resetAll: () =>
@@ -133,6 +150,7 @@ export const useSKKNStore = create<SKKNState>()(
           formData: initialFormData,
           outline: [],
           sections: [],
+          aiConfig: initialAIConfig,
           isLoading: false,
         }),
     }),
@@ -143,6 +161,7 @@ export const useSKKNStore = create<SKKNState>()(
         templateStructure: state.templateStructure,
         outline: state.outline,
         sections: state.sections,
+        aiConfig: state.aiConfig,
       }),
     }
   )
