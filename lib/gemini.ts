@@ -5,31 +5,53 @@ const apiKey = process.env.GEMINI_API_KEY
 
 export const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null
 
-// Available Gemini Models
+// Available Gemini Models (Updated with latest models)
 export const GEMINI_MODELS = {
+  // Gemini 2.5 Series (Latest - Best quality)
+  'gemini-2.5-pro-preview-03-25': {
+    name: 'Gemini 2.5 Pro (Preview)',
+    description: 'Mới nhất - Chất lượng cao nhất, tư duy nâng cao',
+    maxTokens: 65536,
+    isNew: true,
+  },
+  'gemini-2.5-flash-preview-04-17': {
+    name: 'Gemini 2.5 Flash (Preview)',
+    description: 'Mới nhất - Cân bằng tốc độ và chất lượng',
+    maxTokens: 8192,
+    isNew: true,
+  },
+  // Gemini 2.0 Series (Latest stable)
   'gemini-2.0-flash': {
     name: 'Gemini 2.0 Flash',
-    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ',
+    description: 'Nhanh, hiệu quả, phù hợp hầu hết tác vụ (Khuyến nghị)',
     maxTokens: 8192,
+    isRecommended: true,
   },
   'gemini-2.0-flash-lite': {
     name: 'Gemini 2.0 Flash Lite',
     description: 'Nhẹ, rẻ nhất, phù hợp tác vụ đơn giản',
     maxTokens: 8192,
   },
+  'gemini-2.0-pro-exp-02-05': {
+    name: 'Gemini 2.0 Pro (Exp)',
+    description: 'Thử nghiệm - Chất lượng cao cho tác vụ phức tạp',
+    maxTokens: 8192,
+    isExperimental: true,
+  },
+  // Gemini 1.5 Series (Legacy but stable)
+  'gemini-1.5-pro': {
+    name: 'Gemini 1.5 Pro',
+    description: 'Chất lượng cao, phù hợp tác vụ phức tạp',
+    maxTokens: 8192,
+  },
   'gemini-1.5-flash': {
     name: 'Gemini 1.5 Flash',
-    description: 'Cân bằng tốc độ và chất lượng',
+    description: 'Cân bằng tốc độ và chất lượng (Phiên bản cũ)',
     maxTokens: 8192,
   },
   'gemini-1.5-flash-8b': {
     name: 'Gemini 1.5 Flash 8B',
     description: 'Nhẹ, nhanh cho tác vụ cơ bản',
-    maxTokens: 8192,
-  },
-  'gemini-1.5-pro': {
-    name: 'Gemini 1.5 Pro',
-    description: 'Chất lượng cao nhất, phức tạp',
     maxTokens: 8192,
   },
 }

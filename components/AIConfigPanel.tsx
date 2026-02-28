@@ -90,11 +90,11 @@ export function AIConfigPanel({ onClose }: AIConfigPanelProps) {
           onChange={(e) => setModel(e.target.value)}
           options={availableModels.map((m) => ({
             value: m.id,
-            label: `${m.name} - ${m.description}`,
+            label: `${m.badge ? `[${m.badge}] ` : ''}${m.name} - ${m.description}`,
           }))}
         />
         <p className="text-xs text-gray-500">
-          Khuyến nghị: gemini-2.0-flash - Cân bằng tốt giữa tốc độ và chất lượng
+          💡 <strong>Gợi ý:</strong> Gemini 2.5 Pro cho chất lượng cao nhất • Gemini 2.0 Flash cho cân bằng tốt
         </p>
       </div>
 
